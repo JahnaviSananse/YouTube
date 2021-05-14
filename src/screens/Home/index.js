@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -8,62 +8,59 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
-  Button,
-  Pressable,
+  ScrollView,
+  PixelRatio,
 } from 'react-native';
 import YouTube from 'react-native-youtube';
 import {IMAGE} from '../../assets/images/images';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const youtubePlayerRef = useRef();
+  const [isReady, setIsReady] = useState(false);
+  const [status, setStatus] = useState(null);
+  const [quality, setQuality] = useState(null);
+  const [error, setError] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isLooping, setIsLooping] = useState(true);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [containerMounted, setContainerMounted] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(null);
 
   const DATA = [
     {
       id: 1,
       title: <Image style={styles.stretch} source={IMAGE.NATURE} />,
+      video: '4A426Yjm_jM',
     },
     {
       id: 2,
       title: <Image style={styles.stretch} source={IMAGE.DOGGIES} />,
+      video: 'BfmIgt_kPvM',
     },
     {
       id: 3,
       title: <Image style={styles.stretch} source={IMAGE.LION} />,
+      video: 'F9LwbmIWIr0',
     },
     {
       id: 4,
       title: <Image style={styles.stretch} source={IMAGE.ELEPHANT} />,
+      video: '4A426Yjm_jM',
     },
     {
       id: 5,
       title: <Image style={styles.stretch} source={IMAGE.SQUIRAL} />,
-    },
-    {
-      id: 6,
-      title: <Image style={styles.stretch} source={IMAGE.NATURE} />,
-    },
-    {
-      id: 7,
-      title: <Image style={styles.stretch} source={IMAGE.DOGGIES} />,
-    },
-    {
-      id: 8,
-      title: <Image style={styles.stretch} source={IMAGE.LION} />,
-    },
-    {
-      id: 9,
-      title: <Image style={styles.stretch} source={IMAGE.ELEPHANT} />,
-    },
-    {
-      id: 10,
-      title: <Image style={styles.stretch} source={IMAGE.SQUIRAL} />,
+      video: 'F9LwbmIWIr0',
     },
   ];
+  const listVideoIds = ['4A426Yjm_jM', 'BfmIgt_kPvM', 'F9LwbmIWIr0'];
   const renderItem = ({item}) => {
     return (
       <>
-        {/* <TouchableOpacity onPress={() => alert(item.id)}> */}
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Videos', {videoId: item.video})}>
           <View>{item.title}</View>
         </TouchableOpacity>
 
@@ -101,7 +98,6 @@ const Home = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
-      <YouTube ref={youtubePlayerRef} apiKey="Replace Your API Key" />
     </SafeAreaView>
   );
 };
@@ -137,6 +133,158 @@ const styles = StyleSheet.create({
     height: 200,
     // resizeMode: 'stretch',
   },
+
+  titleText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 20,
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  button: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'blue',
+  },
+  buttonTextSmall: {
+    fontSize: 15,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+  player: {
+    alignSelf: 'stretch',
+    marginVertical: 10,
+  },
 });
 
 export default Home;
+
+// import React, {useState, useRef} from 'react';
+// // Import required components
+// import {
+//   SafeAreaView,
+//   StyleSheet,
+//   View,
+//   Text,
+//   ScrollView,
+//   TouchableOpacity,
+//   PixelRatio,
+// } from 'react-native';
+
+// // Import Youtube Players
+// import YouTube from 'react-native-youtube';
+
+// const Home = () => {
+//   const youtubePlayerRef = useRef();
+//   const singleVideoId = '4A426Yjm_jM';
+//   const listVideoIds = ['4A426Yjm_jM', 'BfmIgt_kPvM', 'F9LwbmIWIr0'];
+
+//   const [isReady, setIsReady] = useState(false);
+//   const [status, setStatus] = useState(null);
+//   const [quality, setQuality] = useState(null);
+//   const [error, setError] = useState(null);
+//   const [isPlaying, setIsPlaying] = useState(true);
+//   const [isLooping, setIsLooping] = useState(true);
+//   const [duration, setDuration] = useState(0);
+//   const [currentTime, setCurrentTime] = useState(0);
+//   const [fullscreen, setFullscreen] = useState(false);
+//   const [containerMounted, setContainerMounted] = useState(false);
+//   const [containerWidth, setContainerWidth] = useState(null);
+
+//   return (
+//     <SafeAreaView style={{flex: 1}}>
+//       <ScrollView
+//         style={styles.container}
+//         onLayout={({
+//           nativeEvent: {
+//             layout: {width},
+//           },
+//         }) => {
+//           if (!containerMounted) setContainerMounted(true);
+//           if (containerWidth !== width) setContainerWidth(width);
+//         }}>
+//         {containerMounted && (
+//           <YouTube
+//             ref={youtubePlayerRef}
+//             // You must have an API Key
+//             apiKey="AIzaSyCpPQaqwSPZG50ySo5_8bjfDVpXISyybPs"
+//             // Un-comment one of videoId / videoIds / playlist.
+//             // videoId={singleVideoId}
+//             videoIds={listVideoIds}
+//             // playlistId="PLF797E961509B4EB5"
+//             play={isPlaying}
+//             loop={isLooping}
+//             fullscreen={fullscreen}
+//             controls={1}
+//             style={[
+//               {
+//                 height: PixelRatio.roundToNearestPixel(
+//                   containerWidth / (16 / 9),
+//                 ),
+//               },
+//               styles.player,
+//             ]}
+//             onError={e => setError(e.error)}
+//             onReady={e => setIsReady(true)}
+//             onChangeState={e => setStatus(e.state)}
+//             onChangeQuality={e => setQuality(e.quality)}
+//             onChangeFullscreen={e => setFullscreen(e.isFullscreen)}
+//             onProgress={e => {
+//               setDuration(e.duration);
+//               setCurrentTime(e.currentTime);
+//             }}
+//           />
+//         )}
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// };
+
+// export default Home;
+
+// const styles = StyleSheet.create({
+//   container: {
+//     backgroundColor: 'white',
+//   },
+//   titleText: {
+//     fontSize: 22,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     paddingVertical: 20,
+//   },
+//   buttonGroup: {
+//     flexDirection: 'row',
+//     alignSelf: 'center',
+//   },
+//   button: {
+//     paddingVertical: 4,
+//     paddingHorizontal: 8,
+//     alignSelf: 'center',
+//   },
+//   buttonText: {
+//     fontSize: 18,
+//     color: 'blue',
+//   },
+//   buttonTextSmall: {
+//     fontSize: 15,
+//   },
+//   instructions: {
+//     textAlign: 'center',
+//     color: '#333333',
+//     marginBottom: 5,
+//   },
+//   player: {
+//     alignSelf: 'stretch',
+//     marginVertical: 10,
+//   },
+// });

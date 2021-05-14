@@ -9,11 +9,12 @@ import Home from '../Home/index';
 import Subscription from '../Subscription/index';
 import Library from '../Library/index';
 import Add from '../Add';
+import {HomeScreen} from '../Stacks/HomeScreen';
 //import { BottomTabBar } from '@react-navigation/bottom-tabs';
 
 const Tabbar = createMaterialBottomTabNavigator({
-  Home: {
-    screen: Home,
+  HomeScreen: {
+    screen: HomeScreen,
     navigationOptions: {
       tabBarLabel: 'Home',
       //activeColor: 'black',
