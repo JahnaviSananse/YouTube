@@ -26,7 +26,7 @@ const Tabbar = createMaterialBottomTabNavigator({
     screen: Shorts,
     navigationOptions: {
       tabBarLabel: 'Shorts',
-      //activeColor: 'black',
+      // activeColor: 'red',
       barStyle: {backgroundColor: 'white'},
       tabBarIcon: () => <Image style={styles.icon} source={IMAGE.Shorts} />,
     },
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   addIcon: {
     width: 45,
     height: 45,
-    bottom: 5,
+    bottom: 7,
     //alignSelf: 'center',
     //marginRight: 30,
     //marginLeft: 10,

@@ -31,6 +31,7 @@
     "react-native-screens": "^3.1.1",
     "react-native-simple-bottom-sheet": "^1.0.3",
     "react-native-video": "^5.1.1",
+    "react-native-youtube": "^2.0.1",
     "react-navigation": "^4.4.4",
     "react-navigation-material-bottom-tabs": "^2.3.4"
   },

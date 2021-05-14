@@ -30,4 +30,7 @@ export const IMAGE = {
   ADD: require('../images/add.png'),
   SUBSCRIPTION: require('../images/subscription.png'),
   VIDEO: require('../images/video.png'),
+  CONNECTDEVICE: require('../images/device-connected.png'),
+  BELL: require('../images/alarm.png'),
+  PROFILE: require('../images/profile.png'),
 };
